@@ -1,0 +1,10 @@
+- To create a new Core Web API project: either:
+  - In VS Code, use the C# Dev Kit to create a new project using the "ASP.NET Core Web API" template
+  - Run `dotnet new webapi -o <your-project-name>`
+- Inspecting into the .csproj (or ``Solution Explorer/Dependencies/Packages`), you will see:
+  - The `Swashbuckle.AspNetCore` and `Microsoft.AspNetCore.OpenAp` packages are added for Swagger & OpenApi support respectively. It allows generating documentations and tests automatically.
+- Looking into `Solution Explorer/Dependencies/Frameworks`, you will see both `AspNetCore.App` and `NETCore.App` are added
+- `Properties/launchSettings.json` contains the configurations for launching the project; used only locally and not deployed
+- Run the project from the Solution Explorer or using `dotnet run` in the terminal.
+  - It automatically opens the Swagger documentation at `https://<launch-url>/swagger/index.html` in the browser
+- `0-Web-Core-API.http` is for testing our API. Can be deleted for now (we can use Postman for that)
