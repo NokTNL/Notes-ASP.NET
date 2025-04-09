@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "0-Web-Core-API", "0-Web-Core-API\0-Web-Core-API.csproj", "{339456C0-92B4-42A7-A458-ED1E38BA2ECE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "5-Controllers", "5-Controllers\5-Controllers.csproj", "{282B5A59-A86B-4F96-BA75-3151B50DFCE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{339456C0-92B4-42A7-A458-ED1E38BA2ECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{339456C0-92B4-42A7-A458-ED1E38BA2ECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{339456C0-92B4-42A7-A458-ED1E38BA2ECE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{282B5A59-A86B-4F96-BA75-3151B50DFCE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{282B5A59-A86B-4F96-BA75-3151B50DFCE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{282B5A59-A86B-4F96-BA75-3151B50DFCE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{282B5A59-A86B-4F96-BA75-3151B50DFCE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
