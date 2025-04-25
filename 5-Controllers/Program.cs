@@ -1,3 +1,6 @@
+// Go to `Controllers` to see how to declare controllers
+// Go to `Models` for how to to validate input
+
 /**
  * Builder setup
  */ 
@@ -12,7 +15,10 @@ builder.Services.AddControllers(options =>
 {
     // Content Negotiation
     options.ReturnHttpNotAcceptable = true; // This will return 406 (Not Acceptable) when incoming request's `Accept` header specifies unexpected formats (e.g. application/xml)
-});
+})
+// Needed for using JSON Document, replacing the default builtin JsonDeserializer
+// See `Controllers` for using it in PATCH endpoints.
+.AddNewtonsoftJson();
 
 var app = builder.Build();
 

@@ -7,8 +7,7 @@ namespace _5_Controllers.Controllers;
 [ApiController]
 public class FilesController : ControllerBase
 {
-    [HttpGet]
-    [Route("{fileId}")]
+    [HttpGet("{fileId}")]
     public async Task<ActionResult> GetFile(string fileId)
     {
         // (...Code that looks for file that matches fileId)
