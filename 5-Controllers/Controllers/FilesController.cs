@@ -7,7 +7,7 @@ namespace _5_Controllers.Controllers;
 [ApiController]
 public class FilesController : ControllerBase
 {
-    [HttpGet("{fileId}")]
+    [HttpGet("{fileId}", Name = "GetFile")]
     public async Task<ActionResult> GetFile(string fileId)
     {
         // (...Code that looks for file that matches fileId)
@@ -22,6 +22,21 @@ public class FilesController : ControllerBase
         // For returning files, use the `File` method defined in ControllerBase
         // !!! Note that if the file type can change then it won't work. You may want to use `FileExtensionContentTypeProvider` instead when building the service: https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.staticfiles.fileextensioncontenttypeprovider?view=aspnetcore-9.0
         return File(bytes, "image/jpeg", filePath);
+    }
+
+    // To create a file, the incoming request will have the Content-Type of `multipart/form-data`, which will be parsed into IFormFile (from ASP.NET) in our params
+    // The file will be streamed
+    [HttpPost]
+    public ActionResult CreateFile(IFormFile file)
+    {
+        // Constraint the type of file that can be sent
+        // - file.Length is in bytes
+        if (file.Length == 0 || file.Length > 20971520 /* 20 MB */|| file.ContentType != "application/pdf")
+        {
+            return BadRequest("Invalid file; must not be empty or bigger than 20 MB, and must be a PDF file.");
+        }
+        /* ... some code for storing the file */
+        return CreatedAtRoute("GetFile", new { fileId = "some-file-id"}, null);
     }
 }
 
