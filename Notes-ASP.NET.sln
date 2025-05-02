@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "0-Web-Core-API", "0-Web-Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "5-Controllers", "5-Controllers\5-Controllers.csproj", "{282B5A59-A86B-4F96-BA75-3151B50DFCE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "10-Entity_Framework", "10-Entity_Framework\10-Entity_Framework.csproj", "{A2F61599-6785-4288-BA66-EB31AC1948B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{282B5A59-A86B-4F96-BA75-3151B50DFCE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{282B5A59-A86B-4F96-BA75-3151B50DFCE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{282B5A59-A86B-4F96-BA75-3151B50DFCE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2F61599-6785-4288-BA66-EB31AC1948B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2F61599-6785-4288-BA66-EB31AC1948B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2F61599-6785-4288-BA66-EB31AC1948B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2F61599-6785-4288-BA66-EB31AC1948B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace _5_Controllers.Models;
+namespace _10_Entity_Framework.Models;
 
 public class UpdateCityDto
 {
