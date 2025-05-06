@@ -21,9 +21,11 @@ public class City
     [MaxLength(200)]
     public string? Description { get; set; }
 
-    // We often want to relate one entity in the DB to another. To do this, you will need to do a few things:
+    // We often want to relate one entity in the DB to another. To do this in EF Core, you will need to do a few things:
     // - We need to add an object representation of the RELATED ENTITY in our class as a property. This is called a "navigation"
+    //   - This has to be done in both directions, from parent to child & child to parent.
     //   - Having navigations inside an object will create a "relationship" between two entities
     // - We need to have a foreign key in the child entity to point to the parent entity (See `Entities/PointOfInterest`)
-    public required ICollection<PointOfInterest> PointOfInterests { get; set; }
+    // Navigations should better be nullable, otherwise we will have trouble when inserting new data into the DB
+    public List<PointOfInterest>? PointOfInterests { get; set; } = [];
 }

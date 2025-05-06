@@ -15,5 +15,6 @@
       dotnet ef database update # This creates the DB from the migration. Since we didn't have a DB yet, it simply creates new tables from our context models
       ```
   1.  Now we have a DB file, we can inspect by using an SQLite extension, e.g. `SQLite Viewer` in VS Code
-  - You can also view the history of migrations in the DB file
-  1. If more migrations are needed later on, we simply run the same migration command with a different name, e.g. `dotnet ef migrations add MoreMigrations`. This will compare with the last snapshot and create the relevant new migrations
+      - You can also view the history of migrations in the DB file
+  1.  If more migrations are needed later on, we simply run the same migration command with a different name, e.g. `dotnet ef migrations add MoreMigrations`. This will compare with the last snapshot and create the relevant new migrations
+  1.  We can then seed the DB with initial data, see `DBContext`

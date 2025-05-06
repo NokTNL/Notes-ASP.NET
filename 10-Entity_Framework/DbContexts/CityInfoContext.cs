@@ -10,4 +10,38 @@ public class CityInfoContext(DbContextOptions<CityInfoContext> options): DbConte
 {
     public required DbSet<City> Cities { get; set; }
     public required DbSet<PointOfInterest> PointOfInterests { get; set; }
+
+    // Seeding data by overriding the base method on model creation
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<City>().HasData(
+            new()
+            {
+                Id = 1,
+                Name = "New York City",
+                Description = "That one with a big park",
+            },
+            new()
+            {
+                Id = 2,
+                Name = "Paris"
+            }
+        );
+        modelBuilder.Entity<PointOfInterest>().HasData(
+            new()
+            {
+                Id = 3,
+                Name = "Central Park",
+                Description = "The big park",
+                CityId = 1
+            },
+            new()
+            {
+                Id = 4,
+                Name = "Eiffel Tower",
+                CityId = 2
+            }
+        );
+        base.OnModelCreating(modelBuilder);
+    }
 }
