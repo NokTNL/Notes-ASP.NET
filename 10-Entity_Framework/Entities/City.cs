@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace _10_Entity_Framework.Entities;
 
-// Entities are the object representations of what is actually stored in the DB
+// ENTITIES are the object representations of table entries in the DB
 public class City
 {
     // If you name a field as `Id` it will be used as the primary key for searching in a table.

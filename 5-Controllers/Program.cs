@@ -1,5 +1,5 @@
-// Go to `Controllers` to see how to declare controllers
-// Go to `Models` for how to to validate input
+// Controllers deals with requests and apply relavany business logic based on that. Go to `Controllers` for implementations
+// DTOs (Data transfer objects) deals with shape of input / output, including validations. Go to `Models` for implementations.
 
 /**
  * Builder setup
