@@ -23,4 +23,4 @@
 - Steps to link the DB to the controllers:
   1. Defined a repository, see `Services/CityInfoRepository` and its associated interface
   1. Register the repository to the builder in `Program.cs`
-  1. Use the repository in the controllers
+  1. Use the repository in the controllers, see `Controllers`

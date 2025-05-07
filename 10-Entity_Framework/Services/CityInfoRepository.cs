@@ -26,7 +26,11 @@ public class CityInfoRepository(CityInfoContext context): ICityInfoRepository
 
     public async Task<City?> GetCityByIdAsync(int cityId)
     {
-        return await _context.Cities.FirstOrDefaultAsync(city => city.Id == cityId);
+        return await _context.Cities
+        // We want to query for RELATED ENTITIES in another table. To do this we need to use `.Include` in LINQ
+        // Under the hood it compiles into a `JOIN` SQL query
+        .Include(city => city.PointsOfInterests)
+        .FirstOrDefaultAsync(city => city.Id == cityId);
     }
 }
 

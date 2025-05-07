@@ -16,15 +16,15 @@ public class CityInfoController(ICityInfoRepository cityInfoRepository): Control
     public readonly ICityInfoRepository _cityInfoRepository = cityInfoRepository;
 
     [HttpGet(Name = "GetCities")]
-    public async Task<ActionResult<List<CityDto>>> GetCities()
+    public async Task<ActionResult<List<CityWithoutPointsOfInterestDto>>> GetCities()
     {
         var cityEntities = await _cityInfoRepository.GetCitiesAsync();
         // Remember entities are NOT the same as the DTOs, so we may need to map it
         // Here the major difference is that we want to omit the `pointOfInterest` array
-        var citiesDtos = new List<CityDto>();
+        var citiesDtos = new List<CityWithoutPointsOfInterestDto>();
         foreach(var city in cityEntities)
         {
-            citiesDtos.Add( new(){
+            citiesDtos.Add(new(){
                 Id = city.Id,
                 Name = city.Name,
                 Description = city.Description
@@ -41,11 +41,23 @@ public class CityInfoController(ICityInfoRepository cityInfoRepository): Control
         {
             return NotFound();
         }
-        return Ok(new CityDto(){
+        var cityDto = new CityDto()
+        {
             Id = cityEntity.Id,
             Name = cityEntity.Name,
-            Description = cityEntity.Description
-        });
+            Description = cityEntity.Description,
+            PointsOfInterest = []
+        };
+        foreach(var pointOfInterest in cityEntity.PointsOfInterests)
+        {
+            cityDto.PointsOfInterest.Add( new PointOfInterestDto() {
+                Id = pointOfInterest.Id,
+                Name = pointOfInterest.Name,
+                Description = pointOfInterest.Description,
+                CityId = pointOfInterest.CityId
+            });
+        }
+        return Ok(cityDto);
     }
 
     // [HttpPost(Name = "CreateCity")]

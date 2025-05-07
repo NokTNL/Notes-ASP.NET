@@ -5,10 +5,12 @@ namespace _10_Entity_Framework.Entities;
 
 public class PointOfInterest
 {
+    [Required]
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public required int Id { get; set; }
 
+    [Required]
     [MaxLength(50)]
     public required string Name { get; set; }
 
@@ -20,6 +22,8 @@ public class PointOfInterest
     /* [ForeignKey("CityId")] */
     public City? City { get; set; }
     // Here `CityId` will be used as the default foreign key
+    
+    [Required]
     public required int CityId { get; set; }
 
 }

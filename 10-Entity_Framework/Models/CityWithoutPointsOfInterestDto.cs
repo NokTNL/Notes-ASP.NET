@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace _10_Entity_Framework.Models;
 
-public class CityDto
+public class CityWithoutPointsOfInterestDto
 {
     [Required]
     public required int Id { get; set; }
@@ -11,7 +11,4 @@ public class CityDto
     public required string Name { get; set; }
 
     public string? Description { get; set; }
-
-    [Required]
-    public required List<PointOfInterestDto> PointsOfInterest { get; set; }
 }
