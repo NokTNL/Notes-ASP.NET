@@ -63,7 +63,7 @@ public class CityInfoController(ICityInfoRepository cityInfoRepository): Control
     [HttpPost(Name = "CreateCity")]
     public async Task<ActionResult<CityDto>> CreateCity(NewCityDto newCity)
     {
-        // This entity does NOT have a proper Id yet!
+        // The City and the associated PointOfInterest's do NOT have a proper Id yet!
         var newCityEntity = new City(){
             Name = newCity.Name,
             Description = newCity.Description,
@@ -73,53 +73,72 @@ public class CityInfoController(ICityInfoRepository cityInfoRepository): Control
             }).ToList()
         };
         await _cityInfoRepository.AddCityAsync(newCityEntity);
-        // After this it SHOULD have an Id
-        var isSaveSuccesful = await _cityInfoRepository.SaveChangesAsync();
-        if (!isSaveSuccesful)
-        {
-            return Problem();
-        }
+        // After this they are inserted into the DB and SHOULD have an Id
+        await _cityInfoRepository.SaveChangesAsync();
         return CreatedAtRoute("GetCityById", new { cityId = newCityEntity.Id }, null);
     }
 
-    // [HttpPut("{cityId}", Name = "UpdateCity")]
-    // public ActionResult UpdateCity(int cityId, UpdateCityDto updatedCity)
-    // {
-    //     var city = CityDataStore.Current.Cities.FirstOrDefault(city => city.Id == cityId);
-    //     if (city == null)
-    //     {
-    //         return NotFound();
-    //     }
-    //     city.Name = updatedCity.Name;
-    //     city.Description = updatedCity.Description;
-    //     return NoContent();
-    // }
+    [HttpPut("{cityId}", Name = "UpdateCity")]
+    public async Task<ActionResult> UpdateCity(int cityId, UpdateCityDto updatedCity)
+    {
+        var city = await _cityInfoRepository.GetCityByIdAsync(cityId);
+        if (city == null)
+        {
+            return NotFound();
+        }
+        city.Name = updatedCity.Name;
+        city.Description = updatedCity.Description;
+        city.PointsOfInterests = updatedCity.PointsOfInterest.Select(p => new PointOfInterest(){
+                Name = p.Name,
+                Description = p.Description
+            }).ToList();
+        await _cityInfoRepository.SaveChangesAsync();
+        return NoContent();
+    }
 
-    // [HttpPatch("{cityId}", Name="PartiallyUpdateCity")]
-    // public ActionResult PartiallyUpdateCity(
-    //     int cityId,
-    //     JsonPatchDocument<UpdateCityDto> patchDocument /* With NewtonsoftJson, request body will be parsed into a JsonPatchDocument */
-    // )
-    // {
-    //     var city = CityDataStore.Current.Cities.FirstOrDefault(city => city.Id == cityId);
-    //     if (city == null)
-    //     {
-    //         return NotFound();
-    //     }
-    //     var updatedCity = new UpdateCityDto
-    //     {
-    //         Name = city.Name,
-    //         Description = city.Description
-    //     };
-    //     patchDocument.ApplyTo(updatedCity, ModelState); // `ApplyTo` will apply the new patches.
-    //     if (!ModelState.IsValid
-    //       || !TryValidateModel(updatedCity)
-    //     )
-    //     {
-    //         return BadRequest(ModelState);
-    //     }
-    //     city.Name = updatedCity.Name;
-    //     city.Description = updatedCity.Description;
-    //     return NoContent();
-    // }
+    [HttpPatch("{cityId}", Name="PartiallyUpdateCity")]
+    public async Task<ActionResult> PartiallyUpdateCity(
+        int cityId,
+        JsonPatchDocument<UpdateCityDto> patchDocument
+    )
+    {
+        var city = await _cityInfoRepository.GetCityByIdAsync(cityId);
+        if (city == null)
+        {
+            return NotFound();
+        }
+        // Entity => Dto for applying JsonPatchDocument
+        var updatedCity = new UpdateCityDto
+        {
+            Name = city.Name,
+            Description = city.Description,
+            PointsOfInterest = city.PointsOfInterests.Select(p => new PointOfInterestDto()
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                CityId = p.CityId
+            }).ToList()
+        };
+        // Applying JsonPatchDocument to the DTO
+        patchDocument.ApplyTo(updatedCity, ModelState);
+        if (!ModelState.IsValid
+          || !TryValidateModel(updatedCity)
+        )
+        {
+            return BadRequest(ModelState);
+        }
+        // Dto => Entity
+        city.Name = updatedCity.Name;
+        city.Description = updatedCity.Description;
+        city.PointsOfInterests = updatedCity.PointsOfInterest.Select(p => new PointOfInterest()
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Description = p.Description,
+            CityId = p.CityId
+        }).ToList();
+        await _cityInfoRepository.SaveChangesAsync();
+        return NoContent();
+    }
 }
