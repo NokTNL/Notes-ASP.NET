@@ -27,11 +27,27 @@ public class CityInfoRepository(CityInfoContext context): ICityInfoRepository
     public async Task<City?> GetCityByIdAsync(int cityId)
     {
         return await _context.Cities
-        // We want to query for RELATED ENTITIES in another table. To do this we need to use `.Include` in LINQ
+        // We want to query for RELATED ENTITIES in another table. To do this we need to use `.Include` method in EF Core
         // Under the hood it compiles into a `JOIN` SQL query
         .Include(city => city.PointsOfInterests)
         .FirstOrDefaultAsync(city => city.Id == cityId);
     }
+
+    public async Task AddCityAsync(City city)
+    {
+        // Need to retreive the DbSet
+        var cities = _context.Cities;
+        // This will add entity to our query result but it won't affect the DB yet. See `SaveChangesAsync` below
+        await cities.AddAsync(city);
+    }
+
+    // EF Core TRACKS changes you have made to entites (add, update, delete)
+    public async Task<bool> SaveChangesAsync()
+    {
+        // Returns true if at least 1 entity has been changed
+        return await _context.SaveChangesAsync() >= 0;
+    }
+
 }
 
                                                       

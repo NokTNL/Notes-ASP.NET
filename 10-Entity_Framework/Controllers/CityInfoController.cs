@@ -50,7 +50,7 @@ public class CityInfoController(ICityInfoRepository cityInfoRepository): Control
         };
         foreach(var pointOfInterest in cityEntity.PointsOfInterests)
         {
-            cityDto.PointsOfInterest.Add( new PointOfInterestDto() {
+            cityDto.PointsOfInterest.Add(new PointOfInterestDto() {
                 Id = pointOfInterest.Id,
                 Name = pointOfInterest.Name,
                 Description = pointOfInterest.Description,
@@ -60,19 +60,27 @@ public class CityInfoController(ICityInfoRepository cityInfoRepository): Control
         return Ok(cityDto);
     }
 
-    // [HttpPost(Name = "CreateCity")]
-    // public ActionResult<CityDto> CreateCity(/*[FromBody]*/ NewCityDto newCity)
-    // {
-    //     var maxCityId = CityDataStore.Current.Cities.Select(city => city.Id).Max();
-    //     var newCityWithId = new CityDto()
-    //     {
-    //         Id = maxCityId + 1,
-    //         Name = newCity.Name,
-    //         Description = newCity.Description
-    //     };
-    //     CityDataStore.Current.Cities.Add(newCityWithId);
-    //     return CreatedAtRoute("GetCityById", new { cityId = newCityWithId.Id }, newCityWithId);
-    // }
+    [HttpPost(Name = "CreateCity")]
+    public async Task<ActionResult<CityDto>> CreateCity(NewCityDto newCity)
+    {
+        // This entity does NOT have a proper Id yet!
+        var newCityEntity = new City(){
+            Name = newCity.Name,
+            Description = newCity.Description,
+            PointsOfInterests = newCity.PointsOfInterest.Select(p => new PointOfInterest(){
+                Name = p.Name,
+                Description = p.Description
+            }).ToList()
+        };
+        await _cityInfoRepository.AddCityAsync(newCityEntity);
+        // After this it SHOULD have an Id
+        var isSaveSuccesful = await _cityInfoRepository.SaveChangesAsync();
+        if (!isSaveSuccesful)
+        {
+            return Problem();
+        }
+        return CreatedAtRoute("GetCityById", new { cityId = newCityEntity.Id }, null);
+    }
 
     // [HttpPut("{cityId}", Name = "UpdateCity")]
     // public ActionResult UpdateCity(int cityId, UpdateCityDto updatedCity)

@@ -7,6 +7,8 @@ public interface ICityInfoRepository
     public Task<List<City>> GetCitiesAsync();
 
     public Task<City?> GetCityByIdAsync(int cityId);
+    public Task AddCityAsync(City city);
+    public Task<bool> SaveChangesAsync();
 }
 
                                                       

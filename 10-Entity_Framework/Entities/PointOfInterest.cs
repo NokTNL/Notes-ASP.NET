@@ -8,7 +8,7 @@ public class PointOfInterest
     [Required]
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public required int Id { get; set; }
+    public int Id { get; set; }
 
     [Required]
     [MaxLength(50)]
@@ -24,6 +24,6 @@ public class PointOfInterest
     // Here `CityId` will be used as the default foreign key
     
     [Required]
-    public required int CityId { get; set; }
+    public int CityId { get; set; }
 
 }
